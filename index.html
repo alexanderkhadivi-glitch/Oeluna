@@ -1,20 +1,17 @@
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='4' fill='white'/%3E%3Cpolygon points='4,2 5,4 3,4' fill='white'/%3E%3Cpolygon points='12,2 13,4 11,4' fill='white'/%3E%3Cpolygon points='2,4 4,5 4,3' fill='white'/%3E%3Cpolygon points='14,4 12,5 12,3' fill='white'/%3E%3Cpolygon points='4,12 5,10 3,10' fill='white'/%3E%3Cpolygon points='12,12 13,10 11,10' fill='white'/%3E%3Cpolygon points='2,10 4,11 4,9' fill='white'/%3E%3Cpolygon points='14,10 12,11 12,9' fill='white'/%3E%3C/svg%3E">
 
     <title>OELUNA | Creative Developer Portfolio</title>
     <meta name="description" content="Soluzioni digitali d'alto livello. Design, Code e Strategy by Oeluna.">
-    <meta name="robots" content="index, follow">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
+
     <style>
-        /* CSS custom per effetti non gestibili solo con Tailwind */
         body { 
             background-color: #050505; 
             color: #ffffff; 
@@ -28,84 +25,123 @@
         }
 
         .glass-nav {
-            background: rgba(5, 5, 5, 0.8);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(5, 5, 5, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .moon-o {
-            height: 1.2em;
+            height: 1.4em;
             fill: white;
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
-            animation: moonPulse 3s ease-in-out infinite;
+            animation: moonPulse 4s ease-in-out infinite;
         }
 
         @keyframes moonPulse {
-            0%, 100% { filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.2)); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6)); transform: scale(1.02); }
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6)); }
         }
 
-        .contact-footer {
-            opacity: 0.4;
-            transition: all 0.4s ease;
+        /* Hover effect per i link desktop */
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -4px;
+            left: 0;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after {
+            width: 100%;
         }
 
-        .contact-footer:hover {
-            opacity: 1;
-            transform: translateY(-5px);
+        .hero-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            align-items: center;
         }
     </style>
 </head>
 <body class="antialiased selection:bg-white selection:text-black">
 
-    <nav class="fixed top-0 w-full z-50 glass-nav px-8 py-5 flex justify-between items-center">
-        <div class="flex items-center space-x-2 cursor-pointer group">
+    <nav class="fixed top-0 w-full z-50 glass-nav px-12 py-6 flex justify-between items-center">
+        <div class="flex items-center space-x-3 cursor-pointer group">
             <svg class="moon-o" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1Z"/>
             </svg>
-            <span class="text-xl font-bold tracking-tighter gradient-text">ELUNA</span>
+            <span class="text-2xl font-bold tracking-tighter gradient-text">OELUNA</span>
+        </div>
+        
+        <div class="hidden md:flex space-x-12 text-[10px] uppercase tracking-[0.3em] font-medium text-gray-400">
+            <a href="#" class="nav-link text-white">Home</a>
+            <a href="#progetti" class="nav-link hover:text-white">Progetti</a>
+            <a href="#studio" class="nav-link hover:text-white">Studio</a>
+            <a href="mailto:oeluna.graphics@gmail.com" class="nav-link hover:text-white">Contatti</a>
         </div>
     </nav>
 
-    <section class="min-h-screen flex flex-col justify-center px-8">
-        <div class="max-w-3xl">
-            <p class="text-[10px] uppercase tracking-[0.5em] text-gray-500 font-black mb-6">
-                Design • Code • Strategy
-            </p>
-            
-            <h1 class="text-6xl md:text-8xl font-bold leading-[1.05] gradient-text tracking-tight mb-8">
-                Soluzioni <br> digitali di <br> alto livello.
-            </h1>
-            
-            <p class="text-gray-400 text-lg md:text-xl leading-relaxed max-w-md mb-12">
-                Trasformo visioni in realtà attraverso un design minimale e codice ad alte prestazioni.
-            </p>
-            
-            <div class="inline-block animate-bounce text-gray-600">
-                <span class="text-xs tracking-widest uppercase">Scroll Down ↓</span>
+    <main class="min-h-screen flex items-center px-12 lg:px-24">
+        <div class="w-full hero-layout gap-20">
+            <div>
+                <p class="text-[11px] uppercase tracking-[0.6em] text-gray-500 font-bold mb-8">
+                    Creative Developer Portfolio — 2026
+                </p>
+
+                <h1 class="text-7xl lg:text-9xl font-bold leading-[0.95] gradient-text tracking-tighter mb-10">
+                    High-End <br> Digital <br> Solutions.
+                </h1>
+
+                <p class="text-gray-400 text-xl leading-relaxed max-w-lg mb-12">
+                    Fondo minimalismo estetico e performance tecniche per creare esperienze digitali che lasciano il segno.
+                </p>
+
+                <div class="flex items-center space-x-8">
+                    <a href="https://wa.me/+393923464238" target="_blank" class="px-10 py-5 bg-white text-black font-bold text-[10px] uppercase tracking-widest hover:bg-transparent hover:text-white border border-white transition-all duration-500">
+                        Inizia un Progetto
+                    </a>
+                    <div class="animate-pulse hidden lg:block">
+                        <span class="text-[10px] text-gray-600 tracking-widest uppercase">Scroll per esplorare ↓</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hidden md:flex justify-end">
+                <div class="w-64 h-96 border border-white/10 relative group overflow-hidden">
+                    <div class="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent group-hover:opacity-20 transition-opacity"></div>
+                    <div class="absolute bottom-8 left-8">
+                        <span class="text-[40px] font-light text-white/10 italic leading-none italic">01.</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </section>
+    </main>
 
-    <section class="py-32 px-8 flex justify-center">
-        <div class="w-full max-w-md">
-            <a href="https://wa.me/+393923464238" target="_blank" class="block border border-white bg-white text-black text-center py-6 font-bold text-xs uppercase tracking-[0.3em] hover:bg-transparent hover:text-white transition-all duration-300">
-               Inizia un Progetto
-            </a>
-        </div>
-    </section>
-
-    <footer class="py-24 px-8 border-t border-white/10 contact-footer">
-        <div class="max-w-screen-xl mx-auto flex flex-col items-center space-y-6">
-            <div class="flex flex-col md:flex-row md:space-x-12 space-y-4 md:space-y-0 text-center text-xs tracking-widest uppercase font-medium">
-                <a href="tel:+393923464238" class="hover:text-white transition-colors underline-offset-4 hover:underline">WhatsApp: +39 392 346 4238</a>
-                <a href="mailto:oeluna.graphics@gmail.com" class="hover:text-white transition-colors underline-offset-4 hover:underline">Email: oeluna.graphics@gmail.com</a>
+    <footer class="py-16 px-12 border-t border-white/5 bg-[#080808]">
+        <div class="max-w-screen-2xl mx-auto flex flex-col md:flex-row justify-between items-center space-y-8 md:space-y-0">
+            
+            <div class="flex space-x-12 text-[10px] tracking-[0.2em] uppercase text-gray-500">
+                <a href="tel:+393923464238" class="hover:text-white transition-all">WhatsApp: +39 392 346 4238</a>
+                <a href="mailto:oeluna.graphics@gmail.com" class="hover:text-white transition-all">Email: oeluna.graphics@gmail.com</a>
             </div>
-            <p class="text-[9px] text-gray-600 tracking-[0.2em]">© 2026 OELUNA STUDIO. TUTTI I DIRITTI RISERVATI.</p>
+
+            <p class="text-[9px] text-gray-700 tracking-[0.3em]">
+                © 2026 OELUNA STUDIO • ITALY
+            </p>
+
+            <div class="flex space-x-6">
+                <div class="w-2 h-2 rounded-full bg-white/20 hover:bg-white transition-colors cursor-pointer"></div>
+                <div class="w-2 h-2 rounded-full bg-white/20 hover:bg-white transition-colors cursor-pointer"></div>
+                <div class="w-2 h-2 rounded-full bg-white/20 hover:bg-white transition-colors cursor-pointer"></div>
+            </div>
         </div>
     </footer>
 
 </body>
 </html>
-   
