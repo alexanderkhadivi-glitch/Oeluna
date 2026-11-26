@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d0a0b">
+<meta name="description" content="Oeluna: coach fisico con AI. Una foto a settimana, un piano che si adatta ai tuoi progressi.">
+<title>Oeluna – il tuo coach fisico</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%230d0a0b'/%3E%3Ccircle cx='50' cy='50' r='30' fill='%23d8434e'/%3E%3Ccircle cx='68' cy='50' r='30' fill='%230d0a0b'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#0d0a0b; --ink:#171214; --panel:#1f1619; --edge:#3a2a2e;
+  --red:#d8434e; --glow:#ff6a73; --deep:#7d1f2a;
+  --bone:#f5efe8; --ash:#a29397; --darkside:#2a1d21;
+  color-scheme:dark; box-sizing:border-box; padding-top:env(safe-area-inset-top,0px);
+}
+*,*::before,*::after{box-sizing:inherit}
+html,body{margin:0;color:var(--bone);font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;display:flex;justify-content:center;
+  background:radial-gradient(120% 55% at 50% -8%,rgba(216,67,78,.30),transparent 62%),var(--black);background-attachment:fixed}
+.app{width:100%;max-width:440px;padding:18px 20px calc(104px + env(safe-area-inset-bottom,0px))}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.logo{display:flex;align-items:center;font-weight:800;font-size:1.75rem;letter-spacing:-.045em;line-height:1}
+.logo svg{width:1.02em;height:1.02em;margin-right:.03em;filter:drop-shadow(0 0 8px rgba(255,106,115,.55))}
+.chip{display:flex;align-items:center;gap:7px;font-size:.8rem;color:var(--bone);background:var(--panel);border:1px solid var(--edge);border-radius:99px;padding:6px 12px 6px 8px}
+.chip svg{width:16px;height:16px}
+h1{font-size:2.1rem;line-height:1.05;margin:0 0 10px;font-weight:800;letter-spacing:-.03em}
+h2{font-size:1.05rem;margin:0 0 10px;font-weight:600}
+p{margin:0 0 12px;line-height:1.5;color:var(--ash)}
+.card{background:linear-gradient(160deg,var(--panel),var(--ink));border:1px solid var(--edge);border-radius:22px;padding:18px;margin-bottom:14px}
+.btn{display:block;width:100%;border:0;border-radius:16px;padding:16px;font:inherit;font-weight:600;font-size:1rem;cursor:pointer;
+  background:linear-gradient(180deg,var(--glow),var(--red));color:#1a0507;box-shadow:0 8px 28px -8px rgba(216,67,78,.7);transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--bone);border:1px solid var(--edge);box-shadow:none;margin-top:10px}
+.btn:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+button:focus-visible,input:focus-visible+span,.drop:focus-within{outline:2px solid var(--glow);outline-offset:2px}
+.hidden{display:none!important}
+.hero{display:flex;flex-direction:column;align-items:center;text-align:center;padding:6px 0 20px}
+.hero svg{width:190px;height:190px;filter:drop-shadow(0 0 34px rgba(255,106,115,.5));margin-bottom:18px}
+.goals{display:flex;gap:8px;margin:4px 0 16px;flex-wrap:wrap}
+.goals button{flex:1;min-width:92px;font:inherit;font-size:.9rem;color:var(--ash);background:var(--ink);border:1px solid var(--edge);border-radius:99px;padding:10px 6px;cursor:pointer;transition:all .15s}
+.goals button[aria-pressed=true]{color:#1a0507;background:var(--bone);border-color:var(--bone);font-weight:600}
+.drop{display:block;border:1.5px dashed var(--deep);border-radius:16px;padding:22px;text-align:center;color:var(--ash);cursor:pointer;background:rgba(216,67,78,.05)}
+.drop img{max-width:100%;max-height:260px;border-radius:12px;display:block;margin:0 auto}
+.drop input{display:none}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:.85rem;color:var(--ash);margin:12px 0;line-height:1.4}
+.check input{margin-top:3px;accent-color:var(--red)}
+.week{display:flex;justify-content:space-between;margin:0 0 16px}
+.week div{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:.72rem;color:var(--ash)}
+.week svg{width:30px;height:30px}
+.big{display:flex;flex-direction:column;align-items:center;padding:6px 0}
+.big svg{width:170px;height:170px;filter:drop-shadow(0 0 30px rgba(255,106,115,.45))}
+.num{font-size:3.4rem;font-weight:800;letter-spacing:-.04em;margin-top:8px;line-height:1}
+.level{margin-top:6px;font-size:.85rem;color:var(--glow)}
+.bar{margin:16px 0}
+.bar .row{display:flex;justify-content:space-between;font-size:.92rem;margin-bottom:7px}
+.track{height:10px;background:var(--black);border-radius:99px;overflow:hidden;border:1px solid var(--edge)}
+.fill{height:100%;background:linear-gradient(90deg,var(--deep),var(--glow));border-radius:99px;width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.focus{width:100%;text-align:left;font:inherit;color:var(--bone);cursor:pointer;border:1px solid var(--red);border-radius:22px;padding:20px;margin-bottom:14px;
+  background:linear-gradient(150deg,rgba(216,67,78,.35),rgba(125,31,42,.2))}
+.focus strong{display:block;font-size:1.1rem;margin-bottom:6px}
+.focus span{color:#e9c9cc;font-size:.92rem;line-height:1.5}
+.focus .reveal{display:none;margin-top:12px;animation:pop .35s ease}
+.focus.open .reveal{display:block}
+.focus.open .hint{display:none}
+@keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.prog{margin-bottom:16px}
+.prog .row{display:flex;justify-content:space-between;font-size:.85rem;color:var(--ash);margin-bottom:7px}
+.day{background:linear-gradient(160deg,var(--panel),var(--ink));border:1px solid var(--edge);border-radius:18px;margin-bottom:10px;overflow:hidden}
+.day>button{width:100%;display:flex;align-items:center;gap:12px;background:none;border:0;color:var(--bone);font:inherit;padding:16px;cursor:pointer;text-align:left}
+.day>button b{font-weight:600;flex:1}
+.day>button small{color:var(--ash)}
+.day>button svg{width:26px;height:26px;flex:none}
+.day.done{border-color:var(--red)}
+.day.done small{color:var(--glow)}
+.ex{display:none;padding:0 16px 12px}
+.day.open .ex{display:block}
+.ex label{display:flex;gap:12px;align-items:center;padding:12px 0;border-top:1px solid var(--edge);font-size:.95rem;color:var(--bone);cursor:pointer}
+.ex input{width:20px;height:20px;accent-color:var(--red);flex:none}
+.ex input:checked+span{color:var(--ash);text-decoration:line-through}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.stats div{background:var(--panel);border:1px solid var(--edge);border-radius:16px;padding:14px 8px;text-align:center}
+.stats strong{display:block;font-size:1.5rem;color:var(--glow)}
+.stats small{color:var(--ash);font-size:.75rem}
+svg text{fill:var(--ash);font-family:inherit;font-size:11px}
+#tip{height:22px;font-size:.9rem;color:var(--bone);margin-bottom:6px}
+nav{position:fixed;left:0;right:0;bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;padding:0 16px;pointer-events:none}
+nav div{pointer-events:auto;display:flex;width:100%;max-width:400px;gap:4px;padding:6px;background:rgba(23,18,20,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--edge);border-radius:99px}
+nav button{flex:1;background:none;border:0;color:var(--ash);font:inherit;font-size:.88rem;padding:12px 0;border-radius:99px;cursor:pointer;transition:all .2s}
+nav button[aria-current=true]{color:#1a0507;background:linear-gradient(180deg,var(--glow),var(--red));font-weight:600}
+.note{font-size:.78rem;color:var(--ash);text-align:center;margin-top:18px}
+.spin{width:38px;height:38px;border-radius:50%;border:3px solid var(--edge);border-top-color:var(--glow);animation:r 1s linear infinite;margin:18px auto}
+@keyframes r{to{transform:rotate(360deg)}}
+.modal{position:fixed;inset:0;z-index:9;background:rgba(13,10,11,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+.modal svg{width:220px;height:220px;filter:drop-shadow(0 0 40px rgba(255,106,115,.55))}
+.modal .wk{font-size:1rem;color:var(--ash);margin-top:18px}
+.modal .sc{font-size:3.6rem;font-weight:800;letter-spacing:-.04em}
+.modal .btn{max-width:300px;margin-top:14px}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}.fill{transition:none}.focus .reveal{animation:none}}
+</style>
+</head>
+<body>
+<main class="app">
+  <header>
+    <div class="logo" aria-label="oeluna"><svg class="mm" data-fr=".72" aria-hidden="true"></svg>eluna</div>
+    <div class="chip"><svg class="mm" data-fr="1" aria-hidden="true"></svg>5 settimane di fila</div>
+  </header>
+
+  <!-- ANALISI -->
+  <section id="s-analisi">
+    <div id="start">
+      <div class="hero">
+        <svg id="heroMoon" aria-hidden="true"></svg>
+        <h1>Il tuo fisico,<br>fase dopo fase.</h1>
+        <p>Una foto a settimana. Oeluna legge i tuoi progressi e ricalibra il piano.</p>
+      </div>
+      <h2>Qual è il tuo obiettivo?</h2>
+      <div class="goals" id="goals">
+        <button aria-pressed="true">Definizione</button>
+        <button aria-pressed="false">Massa</button>
+        <button aria-pressed="false">Equilibrio</button>
+      </div>
+      <div class="card">
+        <label class="drop" id="drop"><input type="file" id="file" accept="image/*"><span>Tocca per scegliere una foto in piedi, con buona luce</span></label>
+        <label class="check"><input type="checkbox" id="c18"> <span>Ho almeno 18 anni.</span></label>
+        <label class="check"><input type="checkbox" id="cph"> <span>Acconsento al trattamento della foto per l’analisi. Posso cancellarla in qualsiasi momento.</span></label>
+        <button class="btn" id="go" disabled>Analizza la mia foto</button>
+        <button class="btn ghost" id="demo">Vedi un esempio</button>
+      </div>
+    </div>
+
+    <div id="loading" class="hidden card"><div class="spin"></div><p id="ltxt" style="text-align:center;margin:0">Leggo la postura…</p></div>
+
+    <div id="result" class="hidden">
+      <h1>Settimana 6</h1>
+      <p>Il tuo punteggio è salito di 4 punti. Continua così.</p>
+      <div class="week" id="week"></div>
+      <div class="card big">
+        <svg id="moon" aria-hidden="true"></svg>
+        <div class="num" id="score">0</div>
+        <div class="level">Luna crescente · Livello 3</div>
+      </div>
+      <div class="card" id="bars"></div>
+      <button class="focus" id="focus">
+        <strong>La tua prossima zona da sviluppare</strong>
+        <span class="hint">Tocca per scoprirla</span>
+        <div class="reveal"><span><b style="color:var(--bone)">Spalle posteriori.</b> Hai una buona base: due esercizi in più a settimana bilanciano la parte alta della schiena. Li trovi già nel tuo piano.</span></div>
+      </button>
+      <button class="btn" id="toPlan">Vai al piano della settimana</button>
+      <button class="btn ghost" id="again">Nuova analisi</button>
+    </div>
+  </section>
+
+  <!-- PIANO -->
+  <section id="s-piano" class="hidden">
+    <h1>Il tuo piano</h1>
+    <p id="planSub">Obiettivo: Definizione. Si aggiorna ogni settimana.</p>
+    <div class="prog"><div class="row"><span>Questa settimana</span><span id="pcount">0/12</span></div><div class="track"><div class="fill" id="pfill" style="width:0"></div></div></div>
+    <div id="days"></div>
+    <p class="note">Piano di esempio. Non sostituisce il parere di un medico o di un professionista.</p>
+  </section>
+
+  <!-- PROGRESSI -->
+  <section id="s-progressi" class="hidden">
+    <h1>I tuoi progressi</h1>
+    <p>Sei settimane di costanza. Tocca un punto per vedere il dettaglio.</p>
+    <div class="stats">
+      <div><strong>+9</strong><small>punti totali</small></div>
+      <div><strong>6</strong><small>check-in</small></div>
+      <div><strong>5</strong><small>settimane di fila</small></div>
+    </div>
+    <div class="card">
+      <div id="tip">Settimana 6 · 78 punti</div>
+      <svg id="chart" viewBox="0 0 320 170" width="100%" role="img" aria-label="Grafico del punteggio nelle ultime sei settimane"></svg>
+    </div>
+    <button class="btn" id="share">Crea il mio timelapse</button>
+    <p class="note">Dati dimostrativi.</p>
+  </section>
+</main>
+
+<nav><div>
+  <button data-t="analisi" aria-current="true">Analisi</button>
+  <button data-t="piano" aria-current="false">Piano</button>
+  <button data-t="progressi" aria-current="false">Progressi</button>
+</div></nav>
+
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  var NS="http://www.w3.org/2000/svg", uid=0;
+  var reduce=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+  function buzz(){try{navigator.vibrate&&navigator.vibrate(14)}catch(e){}}
+
+  // Luna: fr 0 = nuova, 1 = piena
+  function moon(svg,fr){
+    var id="mc"+(uid++);
+    svg.setAttribute("viewBox","0 0 100 100");
+    svg.innerHTML='<defs><clipPath id="'+id+'"><circle cx="50" cy="50" r="49"/></clipPath>'+
+      '<radialGradient id="g'+id+'" cx="35%" cy="30%"><stop offset="0" stop-color="#ff8f96"/><stop offset="1" stop-color="#d8434e"/></radialGradient></defs>'+
+      '<circle cx="50" cy="50" r="49" fill="url(#g'+id+')"/>'+
+      '<circle cx="'+(50+fr*100)+'" cy="50" r="49" fill="#2a1d21" clip-path="url(#'+id+')"/>'+
+      '<circle cx="50" cy="50" r="49" fill="none" stroke="#7d1f2a" stroke-width="1.5"/>';
+  }
+  document.querySelectorAll(".mm").forEach(function(s){moon(s,parseFloat(s.dataset.fr))});
+
+  // Hero: la luna si riempie al caricamento
+  (function(){
+    var h=$("heroMoon"), to=.78;
+    if(reduce){moon(h,to);return}
+    var t0=null;
+    function step(t){
+      if(!t0)t0=t; var p=Math.min((t-t0)/1700,1), e=1-Math.pow(1-p,3);
+      moon(h,to*e); if(p<1)requestAnimationFrame(step);
+    }
+    moon(h,0); requestAnimationFrame(step);
+  })();
+
+  // Tabs
+  var btns=document.querySelectorAll("nav button");
+  function tab(name){
+    btns.forEach(function(x){x.setAttribute("aria-current",x.dataset.t===name?"true":"false")});
+    ["analisi","piano","progressi"].forEach(function(t){$("s-"+t).classList.toggle("hidden",t!==name)});
+    window.scrollTo(0,0);
+  }
+  btns.forEach(function(b){b.addEventListener("click",function(){buzz();tab(b.dataset.t)})});
+
+  // Obiettivo
+  var goalName="Definizione";
+  document.querySelectorAll("#goals button").forEach(function(b){b.addEventListener("click",function(){
+    document.querySelectorAll("#goals button").forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+    goalName=b.textContent; buzz();
+    $("planSub").textContent="Obiettivo: "+goalName+". Si aggiorna ogni settimana.";
+  })});
+
+  // Upload e consensi
+  var f=$("file"),c18=$("c18"),cph=$("cph"),go=$("go"),hasPhoto=false;
+  function check(){go.disabled=!(hasPhoto&&c18.checked&&cph.checked)}
+  c18.onchange=cph.onchange=check;
+  f.addEventListener("change",function(){
+    var file=f.files&&f.files[0]; if(!file)return;
+    $("drop").innerHTML='<img alt="Anteprima della foto" src="'+URL.createObjectURL(file)+'">';
+    hasPhoto=true; check();
+  });
+
+  // Serie settimanale
+  (function(){
+    var d=["L","M","M","G","V","S","D"],fr=[1,1,1,1,1,.5,0];
+    $("week").innerHTML=d.map(function(x,i){return '<div><svg class="wk" data-fr="'+fr[i]+'"></svg>'+x+'</div>'}).join("");
+    document.querySelectorAll(".wk").forEach(function(s){moon(s,parseFloat(s.dataset.fr))});
+  })();
+
+  // Analisi
+  function showResult(){
+    buzz();
+    $("start").classList.add("hidden"); $("loading").classList.remove("hidden");
+    var msgs=["Leggo la postura…","Misuro le proporzioni…","Confronto la simmetria…","Preparo il tuo piano…"],i=0;
+    var m=setInterval(function(){i=Math.min(i+1,msgs.length-1);$("ltxt").textContent=msgs[i]},550);
+    setTimeout(function(){
+      clearInterval(m);
+      $("loading").classList.add("hidden"); $("result").classList.remove("hidden");
+      var data=[["Postura",78],["Proporzioni",71],["Simmetria",84]], total=Math.round((78+71+84)/3);
+      var mo=$("moon"), to=total/100, n=0, t0=null;
+      function step(t){
+        if(!t0)t0=t; var p=Math.min((t-t0)/1500,1), e=1-Math.pow(1-p,3);
+        moon(mo,to*e*1.05); $("score").textContent=Math.round(total*e);
+        if(p<1)requestAnimationFrame(step); else buzz();
+      }
+      if(reduce){moon(mo,to*1.05);$("score").textContent=total}else{moon(mo,0);requestAnimationFrame(step)}
+      $("bars").innerHTML=data.map(function(d){
+        return '<div class="bar"><div class="row"><span>'+d[0]+'</span><span>'+d[1]+'</span></div><div class="track"><div class="fill" data-w="'+d[1]+'"></div></div></div>';
+      }).join("");
+      requestAnimationFrame(function(){requestAnimationFrame(function(){
+        document.querySelectorAll("#bars .fill").forEach(function(e){e.style.width=e.dataset.w+"%"});
+      })});
+    },2400);
+  }
+  go.onclick=showResult; $("demo").onclick=showResult;
+  $("focus").onclick=function(){this.classList.add("open");buzz()};
+  $("toPlan").onclick=function(){tab("piano")};
+  $("again").onclick=function(){
+    $("result").classList.add("hidden");$("start").classList.remove("hidden");
+    $("focus").classList.remove("open"); window.scrollTo(0,0);
+  };
+
+  // Piano
+  var plan=[
+    ["Lunedì","Spinta",["Panca inclinata 4×8","Military press 3×10","Croci ai cavi 3×12"]],
+    ["Martedì","Schiena",["Trazioni assistite 4×6","Face pull 4×15","Rematore 3×10"]],
+    ["Giovedì","Gambe",["Squat 4×8","Stacchi rumeni 3×10","Affondi 3×12"]],
+    ["Sabato","Spalle e core",["Alzate laterali 4×12","Reverse fly 4×15","Plank 3×45s"]]
+  ];
+  $("days").innerHTML=plan.map(function(d,i){
+    return '<div class="day" id="d'+i+'"><button aria-expanded="false"><svg class="dm"></svg><b>'+d[0]+' · '+d[1]+'</b><small>0/3</small></button><div class="ex">'+
+      d[2].map(function(e){return '<label><input type="checkbox"><span>'+e+'</span></label>'}).join("")+'</div></div>';
+  }).join("");
+  function refresh(){
+    var total=0,done=0;
+    plan.forEach(function(d,i){
+      var el=$("d"+i),cs=el.querySelectorAll("input"),n=0;
+      cs.forEach(function(c){if(c.checked)n++});
+      total+=cs.length;done+=n;
+      var was=el.classList.contains("done"), now=n===cs.length;
+      el.classList.toggle("done",now);
+      el.querySelector("small").textContent=now?"Completato":n+"/"+cs.length;
+      moon(el.querySelector(".dm"),n/cs.length);
+      if(now&&!was)buzz();
+    });
+    $("pcount").textContent=done+"/"+total;
+    $("pfill").style.width=(done/total*100)+"%";
+  }
+  document.querySelectorAll(".day").forEach(function(el){
+    el.querySelector("button").onclick=function(){
+      var o=el.classList.toggle("open");this.setAttribute("aria-expanded",o);
+    };
+    el.querySelectorAll("input").forEach(function(c){c.onchange=refresh});
+  });
+  $("d0").classList.add("open"); refresh();
+
+  // Grafico
+  var pts=[69,71,72,74,75,78],W=320,H=170,pl=28,pr=12,pt=14,pb=26,min=60,max=90;
+  function X(i){return pl+(W-pl-pr)*i/(pts.length-1)}
+  function Y(v){return pt+(H-pt-pb)*(1-(v-min)/(max-min))}
+  function draw(sel){
+    var out='<defs><linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff6a73" stop-opacity=".45"/><stop offset="1" stop-color="#ff6a73" stop-opacity="0"/></linearGradient></defs>';
+    for(var g=60;g<=90;g+=10)out+='<line x1="'+pl+'" x2="'+(W-pr)+'" y1="'+Y(g)+'" y2="'+Y(g)+'" stroke="#3a2a2e"/><text x="2" y="'+(Y(g)+4)+'">'+g+'</text>';
+    var d="",dots="";
+    pts.forEach(function(v,i){
+      d+=(i?"L":"M")+X(i)+" "+Y(v);
+      dots+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="'+(i===sel?7:4.5)+'" fill="'+(i===sel?"#f5efe8":"#ff6a73")+'" stroke="#0d0a0b" stroke-width="2"/>'+
+        '<circle class="hit" data-i="'+i+'" cx="'+X(i)+'" cy="'+Y(v)+'" r="18" fill="transparent" style="cursor:pointer"/>'+
+        '<text x="'+(X(i)-8)+'" y="'+(H-8)+'">S'+(i+1)+'</text>';
+    });
+    $("chart").innerHTML=out+'<path d="'+d+'L'+X(5)+' '+(H-pb)+'L'+X(0)+' '+(H-pb)+'Z" fill="url(#ar)"/><path d="'+d+'" fill="none" stroke="#ff6a73" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'+dots;
+    document.querySelectorAll(".hit").forEach(function(h){h.onclick=function(){
+      var i=+h.dataset.i;buzz();
+      $("tip").textContent="Settimana "+(i+1)+" · "+pts[i]+" punti"+(i?" ("+(pts[i]-pts[i-1]>=0?"+":"")+(pts[i]-pts[i-1])+")":"");
+      draw(i);
+    }});
+  }
+  draw(5);
+
+  // Timelapse
+  $("share").onclick=function(){
+    buzz();
+    var m=document.createElement("div"); m.className="modal";
+    m.innerHTML='<svg id="tm"></svg><div class="wk" id="twk">Settimana 1</div><div class="sc" id="tsc">69</div><button class="btn hidden" id="tend">Chiudi</button>';
+    document.body.appendChild(m);
+    var i=0,tm=$("tm");
+    function show(){
+      moon(tm,(pts[i]-55)/30); $("twk").textContent="Settimana "+(i+1); $("tsc").textContent=pts[i];
+    }
+    show();
+    var t=setInterval(function(){
+      i++; if(i>=pts.length){clearInterval(t);$("twk").textContent="Il tuo timelapse · dati dimostrativi";$("tend").classList.remove("hidden");buzz();return}
+      show();
+    },reduce?300:900);
+    $("tend").onclick=function(){m.remove()};
+  };
+})();
+</script>
+</body>
+</html>
